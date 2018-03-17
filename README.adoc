@@ -1,0 +1,7 @@
+= Openshift S2I
+Antonio Tolentino <atcjunior@gmail.com>
+v1.0, March 1, 2018: First Version     
+
+
+This Repository contain examples of how to create Docker image with S2I support.
+

@@ -1,0 +1,32 @@
+# Openshift S2I for Angular
+
+[Note]
+====
+  This image compile angular applications
+====
+
+## Download s2i 
+visit site https://github.com/openshift/source-to-image/releases and download last version.
+
+
+## Building centos7-nginx-angular image with S2I support
+
+  docker build --rm -t centos7-nginx-angular .
+
+
+## s2i Process
+.Creating your app image
+====
+Environment variables:
+NG_ENV= <dev|prod>
+
+s2i build --rm <SOURCE_DIR> -e NG_ENV=dev centos7-nginx-angular <IMAGE_APP_NAME>
+====
+
+
+
+## Running Application
+.Running your app image
+====
+docker run -d -p 8080:8080 --user 1000345 <IMAGE_APP_NAME>
+====

@@ -1,0 +1,49 @@
+#!/bin/bash -e
+#
+# S2I assemble script for the 'centos7-nodejs' image.
+# The 'assemble' script builds your application source so that it is ready to run.
+#
+# For more information refer to the documentation:
+#	https://github.com/openshift/source-to-image/blob/master/docs/builder_image.md
+#
+
+if [[ "$1" == "-h" ]]; then
+	# If the 'centos7-nodejs' assemble script is executed with '-h' flag,
+	# print the usage.
+	exec /usr/local/bin/usage
+fi
+
+
+echo "======================================================================="
+echo "Building and deploying nodejs application ..."
+echo "======================================================================="
+echo " "
+echo " "
+
+echo "======================================================================="
+echo "change to (/compile/myapp/src) directory ..."
+echo "======================================================================="
+cd /compile/myapp/src
+echo " "
+echo " "
+
+echo "======================================================================="
+echo "Installing Dependencies ( npm install ) ..."
+echo "======================================================================="
+npm install 
+echo " "
+echo " "
+
+echo "======================================================================="
+echo "Copy Application to (/deployment) ..."
+echo "======================================================================="
+mv /compile/myapp/src/* /deployment
+echo " "
+echo " "
+
+
+echo "======================================================================="
+echo "Build end deploy processes have finished !"
+echo "======================================================================="
+echo " "
+echo " "

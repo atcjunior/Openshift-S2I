@@ -1,0 +1,70 @@
+# Openshift S2I for Java Spring Boot
+
+
+Doc Writer: <atcjunior@gmail.com>
+
+
+[NOTE]
+====
+This image compile code using Maven or Gradle.
+====
+
+
+
+## Download s2i tool
+
+visit site https://github.com/openshift/source-to-image/releases or:
+
+wget https://github.com/openshift/source-to-image/releases/download/v1.1.9/source-to-image-v1.1.9-db2b4645-linux-amd64.tar.gz
+
+
+
+
+## Build centos7-java-spring-boot-s2i image
+.Build
+====
+docker build --rm -t centos7-java-spring-boot-s2i .
+====
+
+
+
+
+## Show centos7-java-spring-boot-s2i usage
+.Show how to use this image
+====
+docker run --rm -ti centos7-java-spring-boot-s2i
+====
+
+## Generate image using s2i 
+
+[width="100%",options="header,footer"]
+|====================
+| Argument   | Value           | Optional
+| BUILD_TOOL | <maven\|gradle> | No
+| REPO_URL   | <REPO_URL>      | Yes
+| REPO_USER  | <USERNAME>      | Yes
+| REPO_PASS  | <PASSWORD>      | Yes
+|====================
+
+
+.Compile code
+====
+s2i build <APP-SOURCE-CODE-DIR> -e BUILD_TOOL=<maven|gradle> centos7-java-spring-boot-s2i <APP-IMAGE-NAME>
+====
+
+.Compile code using private maven repository
+====
+s2i build <APP-SOURCE-CODE-DIR> -e BUILD_TOOL=<maven|gradle> -e REPO_URL=<REPO_URL> -e REPO_USER=<USERNAME> -e REPO_PASS=<PASSWORD>  centos7-java-spring-boot-s2i <APP-IMAGE-NAME>
+====
+
+
+
+## Running image
+.Invoke Java Spring Boot Application
+====
+docker run -d -p 8080:8080 --user 1000345 <APP-IMAGE-NAME>
+
+
+docker run -d -p 8080:8080 -env JAVA_OPTS=-Xms1g -Xmx1g --user 1000345 <APP-IMAGE-NAME>
+
+====

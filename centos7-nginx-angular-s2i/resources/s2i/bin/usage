@@ -1,0 +1,17 @@
+#!/bin/bash -e
+echo ""
+echo "This is the centos7-nginx-angular S2I image:"
+echo "To use it, install S2I: https://github.com/openshift/source-to-image"
+echo " "
+echo "Sample invocation:"
+echo " "
+echo "Environment Variables:"
+echo "NG_ENV=<dev|prod>"
+echo " "
+echo "s2i build --rm <SOURCE_DIR> -e NG_ENV=dev centos7-nginx-angular <APP_IMAGE_NAME>"
+echo " "
+echo "You can then run the resulting image via:"
+echo "docker run -d -p 8080:8080 --user 123456 <APP_IMAGE_NAME>"
+echo "and see the test via http://localhost:8080"
+echo " "
+

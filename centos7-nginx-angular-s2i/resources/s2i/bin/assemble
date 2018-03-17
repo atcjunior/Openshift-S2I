@@ -1,0 +1,60 @@
+#!/bin/bash -e
+#
+# S2I assemble script for the 'centos7-nginx-angular' image.
+# The 'assemble' script builds your application source so that it is ready to run.
+#
+# For more information refer to the documentation:
+#	https://github.com/openshift/source-to-image/blob/master/docs/builder_image.md
+#
+
+## Show help
+if [[ "$1" == "-h" ]]; then
+  # If the 'centos7-nginx-angular' assemble script is executed with '-h' flag,
+  # print the usage.
+  exec /usr/local/bin/usage
+fi
+
+
+## Import scripts
+. /usr/local/s2i/prep_env.sh
+. /usr/local/s2i/angular_compile.sh
+
+echo "============================================================="
+echo "Building Image with Angular Application ..."
+echo "============================================================="
+echo " "
+echo " "
+
+
+## Prepare environment variables
+prep_env
+
+
+echo "============================================================="
+echo "change to ( /compile/myapp/src ) directory ..."
+echo "============================================================="
+cd /compile/myapp/src
+echo " "
+echo " "
+
+echo "============================================================="
+echo "Starting angular compilation process ..."
+echo "============================================================="
+echo " "
+echo " "
+angular_compile
+
+
+echo "============================================================="
+echo "Remove disposable resources src, .npm,  ...                  "
+echo "============================================================="
+rm -rf /compile/myapp/*
+rm -rf /home/appl/.npm 
+echo " "
+echo " "
+
+echo "============================================================="
+echo "Build Image process has finished !"
+echo "============================================================="
+echo " "
+echo " "

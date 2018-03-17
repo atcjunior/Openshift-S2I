@@ -1,0 +1,46 @@
+#!/bin/bash -e
+# The run script executes the server that runs your application.
+#
+# For more information see the documentation:
+#	https://github.com/openshift/source-to-image/blob/master/docs/builder_image.md
+#
+
+# We will turn off daemonizing for the nginx process so that the container
+# doesn't exit after the process runs.
+
+echo "======================================================================="
+echo "Starting NGINX ...                                                     "
+echo "======================================================================="
+echo " "
+
+stop_nginx() { 
+  echo " "
+  echo "Stopping Nginx ..." 
+  kill -TERM "$NGINX_PID" 2>/dev/null
+  echo " "
+  echo "Nginx stopped."
+  echo " "
+
+}
+
+trap stop_nginx SIGINT SIGTERM SIGQUIT SIGABRT
+
+# Start nginx in background
+/usr/sbin/nginx -g "daemon off;" &
+
+NGINX_PID=$! 
+
+echo "Nginx pid = $NGINX_PID" 
+echo " "
+echo "Nginx is accepting requisitions."
+echo " "
+echo " "
+
+wait "$NGINX_PID"
+
+
+
+
+
+
+

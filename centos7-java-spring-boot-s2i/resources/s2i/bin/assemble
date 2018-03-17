@@ -1,0 +1,72 @@
+#!/bin/bash -e
+#
+# S2I assemble script for the 'centos7-java-spring-boot-s2i' image.
+# The 'assemble' script builds your application source so that it is ready to run.
+
+
+if [ "$1" == "-h" ]; then
+    # If the 'centos7-java-spring-boot-s2i' assemble script is executed with '-h' flag,
+    # print the usage.
+    exec /usr/local/s2i/usage
+    exit 0
+fi
+
+# Restore artifacts from the previous build (if they exist).
+# We set them here just for show, but you will need to set this up with your logic
+# according to the application directory that you chose.
+
+#if [ "$(ls /tmp/artifacts/ 2>/dev/null)" ]; then
+#  echo "---> Restoring build artifacts..."
+#  mv /tmp/artifacts/* <your directory here>
+#fi
+
+
+
+## import scripts
+. /usr/local/s2i/gradle_compile.sh
+. /usr/local/s2i/maven_compile.sh
+. /usr/local/s2i/prep_env.sh
+
+
+echo "======================================================================="
+echo "Building java application ...                                          "
+echo "======================================================================="
+echo " "
+echo " "
+
+
+## Prepare environment variables
+prep_env
+
+
+
+echo "======================================================================="
+echo "change to (/compile/myapp/src) directory ...                           "
+echo "======================================================================="
+cd /compile/myapp/src
+echo " "
+echo " "
+
+
+
+echo "======================================================================="
+echo "Starting compilation process ...                                       "
+echo "======================================================================="
+echo " "
+echo " "
+if [ "${BUILD_TOOL^^}" == "MAVEN" ]; then
+    maven_compile
+else
+    gradle_compile
+fi    
+
+
+echo "======================================================================="
+echo "Remove Source code ...                                                 "
+echo "======================================================================="
+rm -rf /compile/myapp/*
+echo " "
+echo " "
+
+
+

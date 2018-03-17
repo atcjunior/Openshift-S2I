@@ -1,0 +1,47 @@
+#!/bin/bash -e
+# The run script runs your Java Spring Boot application.
+#
+
+
+
+
+echo "======================================================================="
+echo "Detecting deployment file ...                                          "
+echo "======================================================================="
+echo " "
+JARFILE=$(cat /deployment/application_name.txt)
+echo "Using $JARFILE ..."
+echo " "
+echo " "
+
+
+stop_app() { 
+  echo " "
+  echo "Stopping Java Application ..." 
+  kill -TERM "$APP_PID" 2>/dev/null
+  echo " "
+  echo "Java Application stopped."
+  echo " "
+
+}
+
+trap stop_app SIGINT SIGTERM SIGQUIT SIGABRT
+
+echo "======================================================================="
+echo "Starting Java Applcation ...                                           "
+echo "======================================================================="
+echo " "
+if [ ! -z $JAVA_OPTS ]; then
+    echo "JAVA_OPTS = $JAVA_OPTS"
+fi
+
+exec java -jar $JAVA_OPTS $JARFILE &
+
+APP_PID=$! 
+
+echo "Java application pid = $APP_PID" 
+echo " "
+echo " "
+
+wait "$APP_PID"
+

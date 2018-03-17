@@ -1,0 +1,35 @@
+# Openshift S2I for nodejs Applications
+
+Doc Writer: <atcjunior@gmail.com>
+
+
+[NOTE]
+====
+This image compile nodejs 6 applications.
+====
+
+
+## Download s2i tool
+visit site https://github.com/openshift/source-to-image/releases 
+
+
+
+
+## Build centos7-nodejs6 image
+
+docker build --rm -t centos7-nodejs6 .
+
+
+## Compile nodejs code using  Openshift S2I
+.Build
+====
+s2i build --rm ./code_dir centos7-nodejs6 centos7-nodejs-app
+====
+
+
+
+## Run nodejs Application 
+.Start container
+====
+docker run -d -e PORT=8080 -p 8080:8080 --user 1000345 centos7-nodejs-app
+====
